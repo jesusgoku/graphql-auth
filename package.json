@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "node -r dotenv/config -r esm src",
+    "dev": "nodemon -r dotenv/config -r esm src",
     "code:check": "yarn code:lint; yarn code:format --check",
     "code:clean": "yarn code:lint --fix; yarn code:format --write",
     "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
