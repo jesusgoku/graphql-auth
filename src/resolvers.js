@@ -1,13 +1,15 @@
-const rootValue = {
-  hello: () => 'Hello World',
+const resolvers = {
+  Query: {
+    hello: () => 'Hello World',
 
-  username: (_parent, { user }) => {
-    if (!user) {
-      throw new Error('Invalid user');
-    }
+    username: (_parent, _args, { user }) => {
+      if (!user) {
+        throw new Error('Invalid user');
+      }
 
-    return user.username;
+      return user.username;
+    },
   },
 };
 
-export default rootValue;
+export default resolvers;

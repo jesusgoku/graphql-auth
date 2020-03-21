@@ -1,10 +1,11 @@
-import { buildSchema } from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
 
-const schema = buildSchema(`
-  type Query {
-    hello: String
-    username: String
-  }
-`);
+import typeDefs from './typedefs';
+import resolvers from './resolvers';
+
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
 export default schema;
