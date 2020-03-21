@@ -1,7 +1,10 @@
-import { sign } from 'jsonwebtoken';
+import { sign as signCallback } from 'jsonwebtoken';
+import { promisify } from 'util';
 import { uid } from 'rand-token';
 
 import { SECRET } from './config';
+
+const sign = promisify(signCallback);
 
 const user = {
   id: '1234567890',
@@ -15,7 +18,7 @@ const user = {
  * @param {Request} req express request object
  * @param {Response} res express response object
  */
-function login(req, res) {
+async function login(req, res) {
   const { username } = req.body;
 
   // TODO: check credentials
@@ -23,15 +26,14 @@ function login(req, res) {
     res.status(400).json({ errors: [{ message: 'username not found' }] });
   }
 
-  sign({ user }, SECRET, { expiresIn: '5m' }, (err, token) => {
-    if (err) {
-      res.status(500).json({ errors: [{ message: 'no token generation' }] });
-    }
-
+  try {
+    const token = await sign({ user }, SECRET, { expiresIn: '5m' });
     const refreshToken = uid(256);
 
     res.json({ token, refreshToken });
-  });
+  } catch (err) {
+    res.status(500).json({ errors: [{ message: 'no token generation' }] });
+  }
 }
 
 /**
@@ -40,7 +42,7 @@ function login(req, res) {
  * @param {Request} req express request object
  * @param {Response} res express response object
  */
-function refresh(req, res) {
+async function refresh(req, res) {
   const { refreshToken } = req.body;
 
   // TODO: check refresh token
@@ -48,13 +50,13 @@ function refresh(req, res) {
     res.status(400).json({ errors: [{ message: 'refresh token not found' }] });
   }
 
-  sign({ user }, SECRET, { expiresIn: '5m' }, (err, token) => {
-    if (err) {
-      res.status(500).json({ errors: [{ message: 'no token generation' }] });
-    }
+  try {
+    const token = await sign({ user }, SECRET, { expiresIn: '5m' });
 
     res.json({ token });
-  });
+  } catch (err) {
+    res.status(500).json({ errors: [{ message: 'no token generation' }] });
+  }
 }
 
 export { login, refresh };
