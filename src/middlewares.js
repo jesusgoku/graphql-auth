@@ -2,19 +2,18 @@ import { verify as verifyCallback } from 'jsonwebtoken';
 import { promisify } from 'util';
 
 import { SECRET } from './config';
+import { extractTokenFromRequest } from './utils';
 
 const verify = promisify(verifyCallback);
 
 async function authentication(req, res, next) {
-  const { authorization } = req.headers;
+  const token = extractTokenFromRequest(req);
 
-  if (!authorization || typeof authorization !== 'string' || !authorization.startsWith('JWT')) {
+  if (!token) {
     next();
 
     return;
   }
-
-  const [, token] = authorization.split(' ');
 
   try {
     const { user } = await verify(token, SECRET);
