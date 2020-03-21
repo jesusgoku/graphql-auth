@@ -1,8 +1,11 @@
-import jwt from 'jsonwebtoken';
+import { verify as verifyCallback } from 'jsonwebtoken';
+import { promisify } from 'util';
 
 import { SECRET } from './config';
 
-function authentication(req, res, next) {
+const verify = promisify(verifyCallback);
+
+async function authentication(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization || typeof authorization !== 'string' || !authorization.startsWith('JWT')) {
@@ -13,17 +16,15 @@ function authentication(req, res, next) {
 
   const [, token] = authorization.split(' ');
 
-  jwt.verify(token, SECRET, (err, { user } = {}) => {
-    if (err) {
-      res.json({ errors: [{ message: err.message }] });
-
-      return;
-    }
+  try {
+    const { user } = await verify(token, SECRET);
 
     req.user = user;
 
     next();
-  });
+  } catch (err) {
+    res.status(500).json({ errors: [{ message: err.message }] });
+  }
 }
 
 export {
