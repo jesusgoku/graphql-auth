@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      target: base
+    env_file: ./.env
+    volumes:
+      - .:/src
+      - /src/node_modules
+    ports:
+      - ${PORT:-4000}:${PORT:-4000}
+    command: yarn dev
