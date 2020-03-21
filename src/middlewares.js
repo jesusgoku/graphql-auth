@@ -21,11 +21,6 @@ function authentication(req, res, next) {
     }
 
     req.user = user;
-    // req.user = {
-    //   id: '1',
-    //   username: 'username',
-    //   roles: ['anonymous'],
-    // };
 
     next();
   });
