@@ -4,7 +4,7 @@ const resolvers = {
 
     username: (_parent, _args, { user }) => {
       if (!user) {
-        throw new Error('Invalid user');
+        throw new Error('Unauthorized');
       }
 
       return user.username;
