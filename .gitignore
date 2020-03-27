@@ -1,5 +1,8 @@
 docker-compose.override.yml
 
+# Only use yarn for manage dependecies
+package-lock.json
+
 # Created by https://www.gitignore.io/api/node,visualstudiocode,linux,macos,windows,dotenv
 # Edit at https://www.gitignore.io/?templates=node,visualstudiocode,linux,macos,windows,dotenv
 
