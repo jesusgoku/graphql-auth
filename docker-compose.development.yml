@@ -10,4 +10,4 @@ services:
       - /src/node_modules
     ports:
       - ${PORT:-4000}:${PORT:-4000}
-    command: yarn dev
+    command: yarn run dev
