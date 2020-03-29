@@ -6,3 +6,8 @@ services:
     build:
       dockerfile: ./Dockerfile
       context: .
+
+  db:
+    image: postgres:12.1-alpine
+    environment:
+      - POSTGRES_PASSWORD=postgres
