@@ -1,4 +1,14 @@
-const { PORT = 4000, NODE_ENV = 'production', SECRET, GRAPHQL_SERVER = 'apollo' } = process.env;
+const {
+  PORT = 4000,
+  NODE_ENV = 'production',
+  SECRET,
+  GRAPHQL_SERVER = 'apollo',
+  DB_HOST,
+  DB_PORT,
+  DB_USER,
+  DB_PASS,
+  DB_NAME,
+} = process.env;
 
 if (!SECRET) {
   throw new Error('Environment var "SECRET" not defined');
@@ -13,4 +23,4 @@ if (!availableGraphQLServers.includes(GRAPHQL_SERVER)) {
   );
 }
 
-export { PORT, NODE_ENV, SECRET, GRAPHQL_SERVER };
+export { PORT, NODE_ENV, SECRET, GRAPHQL_SERVER, DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME };
