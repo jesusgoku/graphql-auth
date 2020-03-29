@@ -1,3 +1,6 @@
+import { mergeDeepRight } from 'ramda';
+import userResolvers from './components/users/resolvers';
+
 const resolvers = {
   Query: {
     hello: () => 'Hello World',
@@ -12,4 +15,4 @@ const resolvers = {
   },
 };
 
-export default resolvers;
+export default mergeDeepRight(resolvers, userResolvers);

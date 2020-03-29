@@ -1,3 +1,5 @@
+import userTypeDefs from './components/users/typedefs';
+
 const typeDefs = `
 """
 Query root type
@@ -15,4 +17,4 @@ type Query {
 }
 `;
 
-export default typeDefs;
+export default [typeDefs, userTypeDefs];
